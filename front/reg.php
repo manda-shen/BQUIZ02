@@ -54,6 +54,7 @@ function reg() {
                 $.post("./api/reg.php", user, (res) => {
                     if (parseInt(res) == 1) {
                         alert("註冊完成，歡迎加入")
+                        // location.href = "index.php?do=login";
                     }
                 })
             }
