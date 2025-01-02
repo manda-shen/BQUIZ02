@@ -20,8 +20,8 @@
     </div>
     <div id="all">
         <div id="title">
-            <?=date("m 月 d 號 l");?> | 今日瀏覽: <?=$Total->find(['date'=>date("Y-m-d")])['total'];?> | 累積瀏覽:
-            <?=$Total->sum('total');?>
+            <?=date("m 月 d 號 l");?> | 今日瀏覽: <?=$Total->find(['date'=>date("Y-m-d")])['total'];?>
+            | 累積瀏覽: <?=$Total->sum('total');?>
             <a href="index.php" style="float:right">回首頁</a>
         </div>
         <div id="title2">
@@ -44,7 +44,13 @@
                     </div>
 
                     <span style="width:26%; display:inline-block;">
-                        <a href="?do=login">會員登入</a>
+                        <?php if(!isset($_SESSION['user'])): ?>
+                        <a href="index.php?do=login">會員登入</a>
+                        <?php else: ?>
+                        歡迎,<?=$_SESSION['user'];?><br>
+                        <button onclick="location.href='admin.php'">管理</button>
+                        <button onclick="logout()">登出</button>
+                        <?php endif; ?>
                     </span>
                 </div>
                 <?php

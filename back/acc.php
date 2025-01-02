@@ -1,5 +1,29 @@
-<fieldset style="width:50%;margin:auto;">
-    <legend>會員註冊</legend>
+<fieldset style="width:75%;margin:auto;">
+    <legend>帳號管理</legend>
+    <table class="ct" style="width:75%;margin:auto;">
+        <tr>
+            <td>帳號</td>
+            <td>密碼</td>
+            <td>刪除</td>
+        </tr>
+        <?php
+        $rows=$User->all();
+        foreach($rows as $row):?>
+        <tr>
+            <td><?=$row['acc']; ?></td>
+            <td><?=str_repeat("*",strlen($row['pw'])); ?></td>
+            <td>
+                <input type="checkbox" name="del[]" value="<?=$row['id']; ?>">
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+    <div class="ct">
+        <button onclick='del()'>確定刪除</button>
+        <button onclick='resetChk()'>清空選取</button>
+    </div>
+
+    <h3>新增會員</h3>
     <div style="color:red">
         *請設定您要註冊的帳號及密碼(最常12個字元)
     </div>
@@ -32,6 +56,20 @@
 </fieldset>
 
 <script>
+function del() {
+    let dels = $("input[name='del[]']:checked");
+    let ids = new Array();
+    dels.each((idx, item) => {
+        ids.push($(item).val())
+    })
+    console.log(ids)
+    $.post('./api/del_user.php', {
+        ids
+    }, () => {
+        location.reload();
+    })
+}
+
 function reg() {
     let user = {
         acc: $("#acc").val(),
@@ -39,7 +77,7 @@ function reg() {
         pw2: $("#pw2").val(),
         email: $("#email").val()
     }
-    // cosole.log(user)
+
     if (user.acc == "" || user.pw == "" || user.pw2 == "" || user.email == "") {
         alert("不可空白");
     } else if (user.pw != user.pw2) {
@@ -48,15 +86,16 @@ function reg() {
         $.get("./api/chk_acc.php", {
             acc: user.acc
         }, (res) => {
-            if (parseInt(res) == 1) {
+            // console.log("chk acc =>",res)
+            if (parseInt(res) > 0) {
                 alert("帳號重複")
             } else {
                 $.post("./api/reg.php", user, (res) => {
-                    // console.log("reg => ",res)
-                    if (parseInt(res) == 1) {
+                    location.reload();
+                    //console.log("reg => ",res)
+                    /* if(parseInt(res)==1){
                         alert("註冊完成，歡迎加入")
-                        // location.href = "index.php?do=login";
-                    }
+                    } */
                 })
             }
         })
@@ -68,5 +107,9 @@ function resetForm() {
     $("#pw").val("")
     $("#pw2").val("")
     $("#email").val("")
+}
+
+function resetChk() {
+    $("input[type='checkbox']").prop("checked", false)
 }
 </script>
