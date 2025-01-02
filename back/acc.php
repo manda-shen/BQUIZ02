@@ -1,7 +1,7 @@
 <fieldset style="width:75%;margin:auto;">
     <legend>帳號管理</legend>
     <table class="ct" style="width:75%;margin:auto;">
-        <tr>
+        <tr style="background-color:#eee">
             <td>帳號</td>
             <td>密碼</td>
             <td>刪除</td>

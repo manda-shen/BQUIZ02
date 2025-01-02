@@ -12,8 +12,6 @@ class DB{
         $this->pdo=new PDO($this->dsn,'root','');
     }
 
-
-
     /**
      * 撈出全部資料
      * 1. 整張資料表
@@ -149,7 +147,8 @@ class DB{
 }
 
 function q($sql){
-    return $this->pdo->query($sql)->fetchAll();
+    $pdo=new PDO("mysql:host=localhost;charset=utf8;dbname=db12",'root','');
+    return $pdo->query($sql)->fetchAll();
 }
 
 function dd($array){
@@ -162,9 +161,10 @@ function to($url){
     header("location:".$url);
 }
 
-
 $Total=new DB('total');
 $User=new DB('users');
+$News=new DB('news');
+$Que=new DB('que');
 
 
 if(!isset($_SESSION['view'])){
