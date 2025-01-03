@@ -40,16 +40,14 @@ function getList(type) {
      * 1.有參數時，等同使用$.post
      * 2.無參數時，等同使用$.get
      */
-    $("#postList").load("./api/get_list.php", {
-        type
-    })
+    $("#postList").load("./api/get_list.php", {type})
     /*
     $.get("./api/get_list.php",{type},(list)=>{
     $("#postList").html(list) 
      */
 }
 
-function getPost(id) {
-    $("#postList").load("./api/get_post.php", {id})
+function getPost(id){
+    $("#postList").load("./api/get_post.php",{id})
 }
 </script>
